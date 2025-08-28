@@ -42,19 +42,18 @@ class SlugUidService
      */
     public function uniqueSlug(Model|string $model, string $value): string
     {
-        $separator = config('sluguid.slug.separator', '-');
-        $maxLength = config('sluguid.slug.max_length', 150);
-
-        $slug = Str::slug(substr($value, 0, $maxLength), $separator);
-
-        // If string passed, instantiate a new model
         if (is_string($model)) {
             $model = new $model;
         }
 
-        $column = $model->slug_column ?? 'slug';
+        $separator = config('sluguid.slug.separator', '-');
+        $maxLength = config('sluguid.slug.max_length', 150);
+
+        $slug   = Str::slug(substr($value, 0, $maxLength), $separator);
+        $column = $model->slug_column ?? config('sluguid.slug.column', 'slug');
+
         $original = $slug;
-        $i = 1;
+        $i        = 1;
 
         while ($model::where($column, $slug)->exists()) {
             $slug = $original . $separator . $i++;
@@ -72,22 +71,18 @@ class SlugUidService
         $length = config('sluguid.uid.length', 13);
         $prefix = $prefix ?? config('sluguid.uid.prefix', '');
 
-        switch ($driver) {
-            case 'sha1':
-                return $prefix . substr(sha1(uniqid((string)mt_rand(), true)), 0, $length);
-            case 'uuid4':
-                return $prefix . Str::uuid()->toString();
-            case 'nanoid':
-                return $prefix . Str::random($length);
-            default:
-                return $prefix . uniqid();
-        }
+        return match ($driver) {
+            'sha1'   => $prefix . substr(sha1(uniqid((string)mt_rand(), true)), 0, $length),
+            'uuid4'  => $prefix . Str::uuid()->toString(),
+            'nanoid' => $prefix . Str::random($length),
+            default  => $prefix . uniqid(),
+        };
     }
 
     /**
      * Generate an incremental sequence value.
      *
-     * @param \Illuminate\Database\Eloquent\Model|string $model
+     * Works with MySQL, SQLite, PostgreSQL.
      */
     public function sequence(Model|string $model, ?string $prefix = null, ?int $padding = null): string
     {
@@ -95,49 +90,49 @@ class SlugUidService
             $model = new $model;
         }
 
-        // Dynamically detect sequence column
-        $column = $model->sequence_column
-            ?? config('sluguid.sequence.column')
-            ?? 'sequence';
-
-        $prefix = $prefix ?? config('sluguid.sequence.prefix', 'ORD');
+        $column  = $model->sequence_column ?? config('sluguid.sequence.column', 'sequence');
+        $prefix  = $prefix ?? config('sluguid.sequence.prefix', 'SEQ');
         $padding = $padding ?? config('sluguid.sequence.padding', 4);
 
-        // Try to get the latest numeric sequence
-        $latest = $model::select($column)
-            ->where($column, 'like', $prefix . '-%')
-            ->orderByRaw("CAST(SUBSTR($column, LENGTH('$prefix-')+1) AS INTEGER) DESC")
+        // Get latest sequence matching the prefix
+        $latest = $model::where($column, 'like', $prefix . '-%')
+            ->orderByRaw("CAST(SUBSTR($column, LENGTH('$prefix-')+1) AS UNSIGNED) DESC")
             ->value($column);
 
-        if ($latest) {
-            $number = (int) str_replace($prefix . '-', '', $latest);
-        } else {
-            $number = 0;
-        }
+        $lastNumber = $latest
+            ? (int) str_replace($prefix . '-', '', $latest)
+            : 0;
 
-        $next = str_pad($number + 1, $padding, '0', STR_PAD_LEFT);
+        $next = str_pad($lastNumber + 1, $padding, '0', STR_PAD_LEFT);
 
         return $prefix . '-' . $next;
     }
 
     /**
-     * Automatically assign slug, uid, and sequence to model.
+     * Automatically assign slug, uid, and sequence to model if not set.
      */
-    public function assign(Model $model): Model
+    public function assign(Model|string $model): Model
     {
-        $slugCol = $model->slug_column ?? 'slug';
-        $uidCol  = $model->uid_column ?? 'uid';
-        $seqCol  = $model->sequence_column ?? 'post_sequence';
+        if (is_string($model)) {
+            $model = new $model;
+        }
 
-        if (empty($model->{$slugCol})) {
+        $slugCol = $model->slug_column ?? config('sluguid.slug.column', 'slug');
+        $uidCol  = $model->uid_column ?? config('sluguid.uid.column', 'uid');
+        $seqCol  = $model->sequence_column ?? config('sluguid.sequence.column', 'sequence');
+
+        // Slug
+        if ($slugCol && empty($model->{$slugCol})) {
             $model->{$slugCol} = $this->uniqueSlug($model, $this->slugFromModel($model));
         }
 
-        if (empty($model->{$uidCol})) {
+        // UID
+        if ($uidCol && empty($model->{$uidCol})) {
             $model->{$uidCol} = $this->uid();
         }
 
-        if (empty($model->{$seqCol})) {
+        // Sequence
+        if ($seqCol && empty($model->{$seqCol})) {
             $model->{$seqCol} = $this->sequence($model);
         }
 
