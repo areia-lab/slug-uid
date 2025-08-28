@@ -1,138 +1,254 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<title>SlugUid Package Docs</title>
-<style>
-body { font-family: Arial, sans-serif; margin: 0; display: flex; }
-nav { width: 250px; background: #1e293b; color: #fff; height: 100vh; overflow-y: auto; position: fixed; padding: 1rem; }
-nav h2 { text-align: center; margin: 1rem 0; }
-nav input { width: 90%; margin: 0.5rem; padding: 5px; border-radius: 4px; border: none; }
-nav ul { list-style: none; padding: 0; }
-nav li { padding: 0.5rem 1rem; cursor: pointer; }
-nav li:hover { background: #334155; }
-nav li a { color: #cbd5e1; text-decoration: none; display: block; }
-nav li a.active { color: #fff; font-weight: bold; }
-main { margin-left: 260px; padding: 2rem; flex: 1; background: #f8fafc; }
-h1, h2, h3 { color: #1e293b; }
-code { background: #e2e8f0; padding: 2px 4px; border-radius: 4px; }
-pre { background: #e2e8f0; padding: 1rem; border-radius: 6px; overflow-x: auto; }
-.collapse-toggle { cursor: pointer; display: flex; justify-content: space-between; }
-.sub-menu { display: none; padding-left: 1rem; }
-</style>
+    <meta charset="UTF-8">
+    <title>SlugUid Package Docs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+        }
+
+        nav {
+            width: 250px;
+            background: #1e293b;
+            color: #fff;
+            height: 100vh;
+            overflow-y: auto;
+            position: fixed;
+            padding: 1rem;
+        }
+
+        nav h2 {
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        nav input {
+            width: 90%;
+            margin: 0.5rem;
+            padding: 5px;
+            border-radius: 4px;
+            border: none;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav li {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+        }
+
+        nav li:hover {
+            background: #334155;
+        }
+
+        nav li a {
+            color: #cbd5e1;
+            text-decoration: none;
+            display: block;
+        }
+
+        nav li a.active {
+            color: #fff;
+            font-weight: bold;
+        }
+
+        main {
+            margin-left: 260px;
+            padding: 2rem;
+            flex: 1;
+            background: #f8fafc;
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: #1e293b;
+        }
+
+        code {
+            background: #e2e8f0;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+
+        pre {
+            background: #e2e8f0;
+            padding: 1rem;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+
+        .collapse-toggle {
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .sub-menu {
+            display: none;
+            padding-left: 1rem;
+        }
+    </style>
 </head>
+
 <body>
-<nav>
-<h2>SlugUid Docs</h2>
-<input type="text" id="search" placeholder="Search...">
-<ul id="menu">
-<li><a href="#requirements">Requirements</a></li>
-<li><a href="#installation">Installation</a></li>
-<li><a class="collapse-toggle">Configuration &#x25BC;</a>
-    <ul class="sub-menu">
-        <li><a href="#config-slug">Slug Settings</a></li>
-        <li><a href="#config-uid">UID Settings</a></li>
-        <li><a href="#config-sequence">Sequence Settings</a></li>
-    </ul>
-</li>
-<li><a href="#usage">Usage</a></li>
-<li><a href="#facade">Facade</a></li>
-<li><a href="#traits">Traits</a></li>
-<li><a href="#artisan-commands">Artisan Commands</a></li>
-<li><a href="#features">Features</a></li>
-</ul>
-</nav>
-<main>
-<section id="requirements">
-<h1>Requirements</h1>
-<ul>
-<li>PHP >= 8.0</li>
-<li>Laravel >= 9.0</li>
-<li>Composer</li>
-</ul>
-</section>
-<section id="installation">
-<h1>Installation</h1>
-<pre><code>composer require areia-lab/slug-uid</code></pre>
-<pre><code>php artisan vendor:publish --provider="AreiaLab\SlugUid\SlugUidServiceProvider" --tag=config</code></pre>
-</section>
-<section id="config-slug">
-<h1>Slug Settings</h1>
-<pre><code>'slug' => [
+    <nav>
+        <h2>SlugUid Docs</h2>
+        <input type="text" id="search" placeholder="Search...">
+        <ul id="menu">
+            <li><a href="#requirements">Requirements</a></li>
+            <li><a href="#installation">Installation</a></li>
+            <li><a class="collapse-toggle">Configuration &#x25BC;</a>
+                <ul class="sub-menu">
+                    <li><a href="#config-slug">Slug Settings</a></li>
+                    <li><a href="#config-uid">UID Settings</a></li>
+                    <li><a href="#config-sequence">Sequence Settings</a></li>
+                </ul>
+            </li>
+            <li><a href="#usage">Usage</a></li>
+            <li><a href="#facade">Facade</a></li>
+            <li><a href="#traits">Traits</a></li>
+            <li><a href="#artisan-commands">Artisan Commands</a></li>
+            <li><a href="#features">Features</a></li>
+        </ul>
+    </nav>
+    <main>
+        <section id="requirements">
+            <h1>Requirements</h1>
+            <ul>
+                <li>PHP >= 8.0</li>
+                <li>Laravel >= 9.0</li>
+                <li>Composer</li>
+            </ul>
+        </section>
+        <section id="installation">
+            <h1>Installation</h1>
+            <pre><code>composer require areia-lab/slug-uid</code></pre>
+            <pre><code>php artisan vendor:publish --provider="AreiaLab\SlugUid\SlugUidServiceProvider" --tag=sluguid-config</code></pre>
+        </section>
+        <section id="config-slug">
+            <h1>Slug Settings</h1>
+            <pre><code>'slug' => [
     'separator' => '-',
     'max_length' => 150,
     'source_columns' => ['title','name'],
     'regen_on_update' => true,
 ]</code></pre>
-</section>
-<section id="config-uid">
-<h1>UID Settings</h1>
-<pre><code>'uid' => [
+        </section>
+        <section id="config-uid">
+            <h1>UID Settings</h1>
+            <pre><code>'uid' => [
     'prefix' => 'UID',
     'length' => 16,
     'driver' => 'uuid4',
 ]</code></pre>
-</section>
-<section id="config-sequence">
-<h1>Sequence Settings</h1>
-<pre><code>'sequence' => [
+        </section>
+        <section id="config-sequence">
+            <h1>Sequence Settings</h1>
+            <pre><code>'sequence' => [
     'prefix' => 'ORD',
     'padding' => 5,
     'column' => 'post_sequence',
     'scoped' => true,
 ]</code></pre>
-</section>
-<section id="usage">
-<h1>Usage</h1>
-<p>Use Facade or Trait to auto-generate slug, uid, and sequence.</p>
-</section>
-<section id="facade">
-<h1>Facade</h1>
-<pre><code>SlugUid::slugFromModel($post);
+        </section>
+        <section id="usage">
+            <h1>Usage</h1>
+            <p>Use Facade or Trait to auto-generate slug, uid, and sequence.</p>
+            <pre><code>use SlugUid;
+                Route::get('/test', function () {
+
+    // return SlugUid::uniqueSlug(Post::class, 'My First Post');
+    // hello-world
+
+    // return SlugUid::uid('prefix');
+    // prefix-65e1d5ff5201a7
+
+    // return SlugUid::sequence(Post::class, 'ORD', 4);
+    // ORD-0001
+    // return SlugUid::sequence(Post::class, 'INV', 4);
+    // INV-0001
+
+    // Generate slug from model (uses configured source columns)
+    // return Post::create([
+    //     'title' => 'My First Post1',
+    //     'description' => 'This is a test post2.'
+    // ]);
+
+    // update details from model
+    // $post = Post::first();
+    // $post->update([
+    //     'title' => 'My First Post1',
+    //     'description' => 'This is a test post desc'
+    // ]);
+    // return $post;
+
+    return Order::create([
+        'product_name'   => 'My First Product',
+        'product_uid'    => 'unique-product-id',
+        'payment_status' => 'pending'
+    ]);
+
+    // Auto-filled: order_number = ORD-00001
+
+});
+</code></pre>
+        </section>
+        <section id="facade">
+            <h1>Facade</h1>
+            <pre><code>SlugUid::slugFromModel($post);
 SlugUid::uid('USR');
 SlugUid::sequence($post);</code></pre>
-</section>
-<section id="traits">
-<h1>Traits</h1>
-<pre><code>use HasSlugUid;
+        </section>
+        <section id="traits">
+            <h1>Traits</h1>
+            <pre><code>use HasSlugUid;
 class Post extends Model {
     use HasSlugUid;
     protected $slug_column = 'slug';
     protected $uid_column = 'uid';
     protected $sequence_column = 'post_sequence';
 }</code></pre>
-</section>
-<section id="artisan-commands">
-<h1>Artisan Commands</h1>
-<pre><code>php artisan sluguid:regen App\Models\Post</code></pre>
-</section>
-<section id="features">
-<h1>Features</h1>
-<ul>
-<li>Customizable slug sources</li>
-<li>Automatic regeneration on update</li>
-<li>Hash-based UID generators</li>
-<li>Scoped sequence numbers per model type</li>
-<li>Artisan regen command</li>
-<li>Facade + Trait support</li>
-<li>Publishable configuration</li>
-</ul>
-</section>
-</main>
-<script>
-document.querySelectorAll('.collapse-toggle').forEach(toggle => {
-    toggle.addEventListener('click', () => {
-        const subMenu = toggle.nextElementSibling;
-        subMenu.style.display = subMenu.style.display === 'block' ? 'none' : 'block';
-    });
-});
-document.getElementById('search').addEventListener('input', function() {
-    const filter = this.value.toLowerCase();
-    document.querySelectorAll('#menu li').forEach(li => {
-        const text = li.innerText.toLowerCase();
-        li.style.display = text.includes(filter) ? '' : 'none';
-    });
-});
-</script>
+        </section>
+        <section id="artisan-commands">
+            <h1>Artisan Commands</h1>
+            <pre><code>php artisan sluguid:regen App\Models\Post</code></pre>
+        </section>
+        <section id="features">
+            <h1>Features</h1>
+            <ul>
+                <li>Customizable slug sources</li>
+                <li>Automatic regeneration on update</li>
+                <li>Hash-based UID generators</li>
+                <li>Scoped sequence numbers per model type</li>
+                <li>Artisan regen command</li>
+                <li>Facade + Trait support</li>
+                <li>Publishable configuration</li>
+            </ul>
+        </section>
+    </main>
+    <script>
+        document.querySelectorAll('.collapse-toggle').forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const subMenu = toggle.nextElementSibling;
+                subMenu.style.display = subMenu.style.display === 'block' ? 'none' : 'block';
+            });
+        });
+        document.getElementById('search').addEventListener('input', function () {
+            const filter = this.value.toLowerCase();
+            document.querySelectorAll('#menu li').forEach(li => {
+                const text = li.innerText.toLowerCase();
+                li.style.display = text.includes(filter) ? '' : 'none';
+            });
+        });
+    </script>
 </body>
+
 </html>

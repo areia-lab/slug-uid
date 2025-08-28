@@ -9,8 +9,8 @@ class SlugUidServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->publishes([
-            __DIR__.'/../../config/sluguid.php' => config_path('sluguid.php'),
-        ], 'config');
+            __DIR__ . '/../config/sluguid.php' => config_path('sluguid.php'),
+        ], 'sluguid-config');
 
         if ($this->app->runningInConsole()) {
             $this->commands([
@@ -21,9 +21,10 @@ class SlugUidServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__.'/../../config/sluguid.php', 'sluguid');
+        $this->mergeConfigFrom(__DIR__ . '/../config/sluguid.php', 'sluguid');
+
         $this->app->singleton('sluguid', function ($app) {
-            return new SlugUidService();
+            return new SlugUidManager();
         });
     }
 }
