@@ -41,7 +41,7 @@ return [
     'sequence' => [
         'prefix'  => 'ORD',            // Default prefix (ex: ORD-00001)
         'padding' => 5,                // Number padding length
-        'column'  => 'post_sequence',  // Default column (overridable in model)
+        'column'  => 'order_number',   // Default column (overridable in model)
         'scoped'  => true,             // If true, keeps prefix separation
     ],
 
