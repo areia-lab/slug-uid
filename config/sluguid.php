@@ -25,7 +25,7 @@ return [
     | protected $uid_column = 'custom_uid_column';
     */
     'uid' => [
-        'prefix' => 'UID',     // Optional prefix for UID
+        'prefix' => '',     // Optional prefix for UID
         'length' => 16,        // Length for drivers that use random string
         'driver' => 'uniqid',  // uniqid | sha1 | uuid4 | nanoid
         'column' => 'uid',     // Default UID column (overridable in model)
