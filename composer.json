@@ -1,0 +1,24 @@
+{
+    "name": "areia-lab/slug-uid",
+    "description": "A Laravel package to generate unique slugs, UIDs, and sequence numbers.",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "AreiaLab\\SlugUid\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=8.0",
+        "illuminate/support": "^9.0|^10.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "AreiaLab\\SlugUid\\SlugUidServiceProvider"
+            ],
+            "aliases": {
+                "SlugUid": "AreiaLab\\SlugUid\\Facades\\SlugUid"
+            }
+        }
+    }
+}
