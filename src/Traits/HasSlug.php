@@ -27,7 +27,7 @@ trait HasSlug
             $source = $model->title ?? $model->name ?? null;
 
             if (!empty($source) && $model->isDirty(['title', 'name'])) {
-                $model->{$slugCol} = SlugUid::uniqueSlug(get_class($model), $source, $model->id);
+                $model->{$slugCol} = SlugUid::uniqueSlug(get_class($model), $source, $model->getKey());
             }
         });
     }
