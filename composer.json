@@ -7,7 +7,8 @@
         "uid",
         "sequence",
         "generator",
-        "unique"
+        "unique",
+        "slug-uid"
     ],
     "homepage": "https://github.com/areia-lab/slug-uid",
     "license": "MIT",
