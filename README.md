@@ -6,9 +6,9 @@ SlugUid is a Laravel package to automatically generate **slugs**, **unique ident
 
 ## Requirements
 
-- PHP >= 8.0  
-- Laravel >= 9.0  
-- Composer  
+- PHP >= 8.0
+- Laravel >= 9.0
+- Composer
 
 ---
 
@@ -86,9 +86,11 @@ SlugUid::sequence(Post::class, 'ORD', 4);
 ## Facade Methods
 
 ```php
-SlugUid::slugFromModel($post);
+SlugUid::slug('Hello World');
+SlugUid::uniqueSlug($post);
 SlugUid::uid('USR');
-SlugUid::sequence($post);
+SlugUid::uniqueUid(Post::class, 'USR');
+SlugUid::sequence(Post::class, 'INV');
 ```
 
 ---
@@ -137,13 +139,13 @@ php artisan sluguid:regen App\Models\Post
 
 ## Features
 
-- Customizable slug sources  
-- Automatic regeneration on update  
-- Hash-based UID generators  
-- Scoped sequence numbers per model type  
-- Artisan regen command  
-- Facade + Trait support  
-- Publishable configuration  
+- Customizable slug sources
+- Automatic regeneration on update
+- Hash-based UID generators
+- Scoped sequence numbers per model type
+- Artisan regen command
+- Facade + Trait support
+- Publishable configuration
 
 ---
 
@@ -225,4 +227,3 @@ return $post;
 ## License
 
 MIT License © [Your Name or Organization]
-
