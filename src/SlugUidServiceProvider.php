@@ -22,8 +22,9 @@ class SlugUidServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/sluguid.php', 'sluguid');
+
         $this->app->singleton('sluguid', function ($app) {
-            return new SlugUidService();
+            return new SlugUidManager();
         });
     }
 }
