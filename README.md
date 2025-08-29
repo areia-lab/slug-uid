@@ -95,17 +95,33 @@ SlugUid::sequence($post);
 
 ## Traits
 
-You can use the `HasSlugUid` trait in your models:
+Instead of a single trait, you can use dedicated traits for slug, uid, and sequence:
 
 ```php
-use HasSlugUid;
+<?php
 
-class Post extends Model {
-    use HasSlugUid;
+namespace App\Models;
 
-    protected $slug_column = 'slug';
-    protected $uid_column = 'uid';
-    protected $sequence_column = 'post_sequence';
+use AreiaLab\SlugUid\Traits\HasSequence;
+use AreiaLab\SlugUid\Traits\HasSlug;
+use AreiaLab\SlugUid\Traits\HasUid;
+use Illuminate\Database\Eloquent\Model;
+
+class Post extends Model
+{
+    use HasSlug, HasUid, HasSequence;
+
+    public $slug_column = 'slug';
+    public $slug_source = 'title';
+
+    public $uid_column = 'uid';
+    public $uid_prefix = 'POST';
+
+    public $sequence_column = 'post_sequence';
+    public $sequence_prefix = 'PST';
+    public $sequence_padding = 4;
+
+    protected $fillable = ['title', 'slug', 'uid', 'post_sequence', 'description'];
 }
 ```
 
