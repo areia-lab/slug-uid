@@ -9,59 +9,67 @@ class Slug
 {
     /**
      * Generate a slug from a plain string.
+     * 
+     * @param string $value
+     * @return string
      */
     public function slug(string $value): string
     {
         $separator = config('sluguid.slug.separator', '-');
         $maxLength = config('sluguid.slug.max_length', 150);
 
-        return Str::slug(substr($value, 0, $maxLength), $separator);
+        return Str::slug(Str::limit($value, $maxLength, ''), $separator);
     }
 
     /**
      * Build a slug source string from model columns.
+     * 
+     * @param \Illuminate\Database\Eloquent\Model|string $model
+     * @return string
      */
     public function slugFromModel(Model|string $model): string
     {
-        if (is_string($model)) {
-            $model = new $model;
-        }
+        $model = is_string($model) ? new $model : $model;
 
-        $cols = config('sluguid.slug.source_columns', ['title']);
-        $str = '';
+        $columns = config('sluguid.slug.source_columns', ['title']);
 
-        foreach ($cols as $col) {
-            if (!empty($model->{$col})) {
-                $str .= $model->{$col} . ' ';
-            }
-        }
-
-        return trim($str);
+        return collect($columns)
+            ->map(fn($col) => $model->{$col} ?? null)
+            ->filter()
+            ->join(' ');
     }
 
     /**
      * Generate a unique slug for a given model.
+     * 
+     * @param \Illuminate\Database\Eloquent\Model|string $model
+     * @param string $value
+     * @param mixed $id
+     * @return string
      */
-    public function uniqueSlug(Model|string $model, string $value): string
+    public function uniqueSlug(Model|string $model, string $value, ?int $id = null): string
     {
-        if (is_string($model)) {
-            $model = new $model;
-        }
+        $model = is_string($model) ? new $model : $model;
 
         $separator = config('sluguid.slug.separator', '-');
         $maxLength = config('sluguid.slug.max_length', 150);
-        $slug = Str::slug(substr($value, 0, $maxLength), $separator);
+        $column    = $model->slug_column ?? config('sluguid.slug.column', 'slug');
 
-        $column = $model->slug_column ?? config('sluguid.slug.column', 'slug');
         if (empty($column)) {
-            return $slug;
+            return Str::slug(Str::limit($value, $maxLength, ''), $separator);
         }
 
-        $original = $slug;
-        $i = 1;
+        $baseSlug = Str::slug(Str::limit($value, $maxLength, ''), $separator);
+        $slug     = $baseSlug;
+        $counter  = 1;
 
-        while ($model::where($column, $slug)->exists()) {
-            $slug = $original . $separator . $i++;
+        while (
+            $model->newQuery()
+            ->where($column, $slug)
+            ->when($id, fn($q) => $q->whereKeyNot($id)) // exclude current record
+            ->exists()
+        ) {
+            $slug = $baseSlug . $separator . $counter++;
         }
 
         return $slug;

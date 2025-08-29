@@ -49,9 +49,9 @@ class SlugUidManager
         return $this->slugService()->slugFromModel($model);
     }
 
-    public function uniqueSlug(Model|string $model, string $value): string
+    public function uniqueSlug(Model|string $model, string $value, ?int $id = null): string
     {
-        return $this->slugService()->uniqueSlug($model, $value);
+        return $this->slugService()->uniqueSlug($model, $value, $id);
     }
 
     /** ---------------- UID ---------------- **/
