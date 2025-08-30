@@ -63,8 +63,8 @@ class SlugUidManager
 
     /** ---------------- Sequence ---------------- **/
 
-    public function sequence(Model|string $model, ?string $prefix = null, ?int $padding = null): string
+    public function sequence(Model|string $model, ?string $prefix = null, ?int $padding = null, ?bool $scoped = false, ?string $separator = '-'): string
     {
-        return $this->sequenceService()->sequence($model, $prefix, $padding);
+        return $this->sequenceService()->sequence($model, $prefix, $padding, $scoped, $separator);
     }
 }

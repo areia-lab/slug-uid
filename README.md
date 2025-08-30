@@ -56,7 +56,8 @@ php artisan vendor:publish --provider="AreiaLab\SlugUid\SlugUidServiceProvider" 
     'prefix' => 'ORD',
     'padding' => 5,
     'column' => 'post_sequence',
-    'scoped' => true,
+    'scoped'  => true,
+    'separator' => '-',
 ]
 ```
 
@@ -122,6 +123,8 @@ class Post extends Model
     public $sequence_column = 'post_sequence';
     public $sequence_prefix = 'PST';
     public $sequence_padding = 4;
+    public $sequence_scoped = true;
+    public $sequence_separator = '-';
 
     protected $fillable = ['title', 'slug', 'uid', 'post_sequence', 'description'];
 }

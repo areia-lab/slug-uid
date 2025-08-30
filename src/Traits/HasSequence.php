@@ -13,9 +13,18 @@ trait HasSequence
             $seqCol = $model->sequence_column ?? config('sluguid.sequence.column', 'sequence');
 
             if ($seqCol && empty($model->{$seqCol})) {
-                $prefix  = $model->getSequencePrefix();
-                $padding = $model->getSequencePadding();
-                $model->{$seqCol} = SlugUid::sequence(get_class($model), $prefix, $padding);
+                $prefix    = $model->getSequencePrefix();
+                $padding   = $model->getSequencePadding();
+                $scoped    = $model->getSequenceScoped();
+                $separator = $scoped ? $model->getSequenceSeparator() : '';
+
+                $model->{$seqCol} = SlugUid::sequence(
+                    get_class($model),
+                    $prefix,
+                    $padding,
+                    $scoped,
+                    $separator,
+                );
             }
         });
     }
@@ -32,5 +41,19 @@ trait HasSequence
         return property_exists($this, 'sequence_padding')
             ? $this->sequence_padding
             : config('sluguid.sequence.padding', 4);
+    }
+
+    public function getSequenceScoped(): bool
+    {
+        return property_exists($this, 'sequence_scoped')
+            ? $this->sequence_scoped
+            : config('sluguid.sequence.scoped', true);
+    }
+
+    public function getSequenceSeparator(): string
+    {
+        return property_exists($this, 'sequence_separator')
+            ? $this->sequence_separator
+            : config('sluguid.sequence.separator', '-');
     }
 }

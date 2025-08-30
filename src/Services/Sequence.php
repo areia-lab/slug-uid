@@ -10,7 +10,7 @@ class Sequence
     /**
      * Generate an incremental sequence value.
      */
-    public function sequence(Model|string $model, ?string $prefix = null, ?int $padding = null): string
+    public function sequence(Model|string $model, ?string $prefix = null, ?int $padding = null, ?bool $scoped = false, ?string $separator = '-'): string
     {
         if (is_string($model)) {
             $model = new $model;
@@ -59,6 +59,9 @@ class Sequence
 
         $next = str_pad($number + 1, $padding, '0', STR_PAD_LEFT);
 
-        return $prefix . '-' . $next;
+        $scoped = $model->sequence_scoped ?? config('sluguid.sequence.scoped', true);
+        $separator = $scoped ? $model->sequence_separator ?? config('sluguid.sequence.separator', '-') : '';
+
+        return $prefix . $separator . $next;
     }
 }
