@@ -4,6 +4,26 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [v1.1.1] - 2025-08-30
+
+### Fixed
+
+- 🛠 Corrected **sequence generation when `scoped = false`**
+  - Previously, sequences without a separator could cause **UNIQUE constraint violations** on SQLite and other databases.
+  - Now the query dynamically adapts to `scoped` and `separator` settings for all supported drivers (MySQL, PostgreSQL, SQLite).
+  - Example:
+    ```php
+    class User extends Model {
+        use HasSequence;
+        public $sequence_prefix = 'RC';
+        public $sequence_padding = 4;
+        public $sequence_scoped = false;
+    }
+    ```
+    Generates → `RC0001`, `RC0002`, … without causing duplicates.
+
+---
+
 ## [v1.1.0] - 2025-08-29
 
 ### Added
