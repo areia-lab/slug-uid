@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [v1.1.0] - 2025-08-29
+
+### Added
+
+- 🔢 Introduced **`scoped` sequence support**
+  - Sequences can now be scoped with a custom separator (default: `-`)
+  - Example: `ORD-0001`, or `INV/0001` when using `/` as separator
+- 🛠 Added `getSequenceScoped()` and `getSequenceSeparator()` helpers in `HasSequence` trait
+- ⚡ Configurable via model properties (`$sequence_scoped`, `$sequence_separator`) or `config/sluguid.php`
+
+### Improved
+
+- ♻️ Refactored `HasSequence` trait to support new sequence generation flow
+- ✨ Cleaner integration between Trait ↔ Service for sequence building
+
+---
+
 ## [v1.0.1] - 2025-08-29
 
 ### Added
