@@ -9,6 +9,7 @@ return [
     | Default behavior for generating slugs. Models can override by setting
     |
     | protected $slug_column = 'custom_slug_column';
+    | public $slug_source = 'title';
     */
     'slug' => [
         'separator'       => '-',               // Separator for slug
@@ -25,6 +26,7 @@ return [
     | Default UID generation config. Models can override by setting
     |
     | protected $uid_column = 'custom_uid_column';
+    | public $uid_prefix = 'POST';
     */
     'uid' => [
         'prefix' => '',     // Optional prefix for UID
@@ -40,12 +42,16 @@ return [
     | Default sequence config. Models can override by setting
     |
     | protected $sequence_column = 'custom_sequence_column';
+    | public $sequence_prefix = 'PST';
+    | public $sequence_padding = 4;
+    | public $sequence_scoped = true;
+    | public $sequence_separator = '-';
     */
     'sequence' => [
         'prefix'  => 'ORD',            // Default prefix (ex: ORD-00001)
-        'padding' => 5,                // Number padding length
+        'padding' => 4,                // Number padding length
         'column'  => 'order_number',   // Default column (overridable in model)
-        'scoped'  => true,             // If true, keeps prefix separation
+        'scoped'  => false,             // If true, keeps prefix separation
         'separator' => '-',            // Separator between prefix and number
     ],
 
