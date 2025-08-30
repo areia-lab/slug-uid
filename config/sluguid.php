@@ -46,6 +46,7 @@ return [
         'padding' => 5,                // Number padding length
         'column'  => 'order_number',   // Default column (overridable in model)
         'scoped'  => true,             // If true, keeps prefix separation
+        'separator' => '-',            // Separator between prefix and number
     ],
 
 ];

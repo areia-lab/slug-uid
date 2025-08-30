@@ -132,7 +132,8 @@
     'prefix' => 'ORD',
     'padding' => 5,
     'column' => 'post_sequence',
-    'scoped' => true,
+    'scoped'  => true,
+    'separator' => '-',
 ]</code></pre>
     </section>
 
@@ -230,19 +231,28 @@ return $post;
 
     <section id="facade" class="mt-4">
       <h1>Facade</h1>
-      <pre><code>SlugUid::slugFromModel($post);
+      <pre><code>SlugUid::uniqueSlug(Post::class, 'Hello World');
 SlugUid::uid('USR');
-SlugUid::sequence($post);</code></pre>
+SlugUid::sequence(Post::class, 'ORD', 4);</code></pre>
     </section>
 
     <section id="traits" class="mt-4">
       <h1>Traits</h1>
-      <pre><code>use HasSlugUid;
+      <pre><code>use HasSlug, HasUid, HasSequence;
 class Post extends Model {
-    use HasSlugUid;
-    protected $slug_column = 'slug';
-    protected $uid_column = 'uid';
-    protected $sequence_column = 'post_sequence';
+    use HasSlug, HasUid, HasSequence;
+
+    public $slug_column = 'slug';
+    public $slug_source = 'title';
+
+    public $uid_column = 'uid';
+    public $uid_prefix = 'POST';
+
+    public $sequence_column = 'post_sequence';
+    public $sequence_prefix = 'PST';
+    public $sequence_padding = 4;
+    public $sequence_scoped = true;
+    public $sequence_separator = '-';
 }</code></pre>
     </section>
 
