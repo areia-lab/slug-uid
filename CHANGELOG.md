@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [v1.1.2] - 2025-09-13
+
+### Changed
+
+- 📄 **Docs removed from package** to reduce package size
+- ⚙️ **Artisan Commands section modified** in documentation
+  - `sluguid:regen` example updated with full before/after table
+  - HTML/Markdown documentation now includes clear usage examples
+
+---
+
 ## [v1.1.1] - 2025-08-30
 
 ### Fixed
