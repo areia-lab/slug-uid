@@ -18,7 +18,7 @@ SlugUid is a Laravel package to automatically generate **slugs**, **unique ident
 composer require areia-lab/slug-uid
 ```
 
-Publish the configuration:
+## Publish the configuration:
 
 ```bash
 php artisan vendor:publish --provider="AreiaLab\SlugUid\SlugUidServiceProvider" --tag=sluguid-config
@@ -65,7 +65,7 @@ php artisan vendor:publish --provider="AreiaLab\SlugUid\SlugUidServiceProvider" 
 
 ## Usage
 
-Basic usage with the Facade:
+## Basic usage with the Facade:
 
 ```php
 // Generate slug
@@ -128,14 +128,6 @@ class Post extends Model
 
     protected $fillable = ['title', 'slug', 'uid', 'post_sequence', 'description'];
 }
-```
-
----
-
-## Artisan Commands
-
-```bash
-php artisan sluguid:regen App\Models\Post
 ```
 
 ---
@@ -227,6 +219,36 @@ return $post;
 
 ---
 
+## Artisan Commands
+
+```bash
+php artisan sluguid:regen App\Models\Post
+```
+
+🔹 **Example**
+
+Suppose your `posts` table looks like this:
+
+| id  | title           | slug     | uid    |
+| --- | --------------- | -------- | ------ |
+| 1   | Hello World     | NULL     | NULL   |
+| 2   | Laravel Command | old-slug | abc123 |
+
+After running:
+
+```bash
+php artisan sluguid:regen "App\Models\Post"
+```
+
+It will regenerate values, maybe like this:
+
+| id  | title           | slug            | uid       |
+| --- | --------------- | --------------- | --------- |
+| 1   | Hello World     | hello-world     | 7f93a2... |
+| 2   | Laravel Command | laravel-command | c8d8ff... |
+
+---
+
 ## License
 
-MIT License © [Your Name or Organization]
+MIT License © Areia Lab 2025
