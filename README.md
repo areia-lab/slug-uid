@@ -2,6 +2,8 @@
 
 SlugUid is a Laravel package to automatically generate **slugs**, **unique identifiers (UIDs)**, and **sequence numbers** for your models. It supports configuration, facades, traits, and artisan commands.
 
+📖 **Documentation:** [Complete Guide to Slug-UID](https://areia-lab.areiatech.com/docs/slug-uid.html)
+
 ---
 
 ## Requirements
